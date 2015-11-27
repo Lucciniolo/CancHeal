@@ -1,0 +1,386 @@
+-- phpMyAdmin SQL Dump
+-- version 4.2.11
+-- http://www.phpmyadmin.net
+--
+-- Client :  127.0.0.1
+-- Généré le :  Ven 27 Novembre 2015 à 15:33
+-- Version du serveur :  5.6.21
+-- Version de PHP :  5.6.3
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Base de données :  `cancheal`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `affecter`
+--
+
+CREATE TABLE IF NOT EXISTS `affecter` (
+  `type_diagnostic` varchar(25) DEFAULT NULL,
+  `Score_OMS` int(11) DEFAULT NULL,
+  `Localisation_Tumeur` varchar(25) DEFAULT NULL,
+  `Code_Topographique` varchar(25) DEFAULT NULL,
+  `Lateralite` varchar(25) DEFAULT NULL,
+  `Type_Tumeur` int(11) DEFAULT NULL,
+  `cT` int(11) DEFAULT NULL,
+  `cN` int(11) DEFAULT NULL,
+  `cM` int(11) DEFAULT NULL,
+  `pT` tinyint(1) DEFAULT NULL,
+  `pN` tinyint(1) DEFAULT NULL,
+  `pM` tinyint(1) DEFAULT NULL,
+  `ID_patient` int(11) NOT NULL,
+  `_cancer` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `antecedents`
+--
+
+CREATE TABLE IF NOT EXISTS `antecedents` (
+  `_Famille` int(11) NOT NULL,
+  `type_Antecedent` varchar(25) DEFAULT NULL,
+  `type_Parent` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `avoir`
+--
+
+CREATE TABLE IF NOT EXISTS `avoir` (
+  `_Famille` int(11) NOT NULL,
+  `ID_patient` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `avoir_effets_secondaires`
+--
+
+CREATE TABLE IF NOT EXISTS `avoir_effets_secondaires` (
+  `type_effet` varchar(25) DEFAULT NULL,
+  `ID_patient` int(11) NOT NULL,
+  `_Medicament` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `connexion`
+--
+
+CREATE TABLE IF NOT EXISTS `connexion` (
+`ID_connexion` int(25) NOT NULL,
+  `identifiant` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `mdp` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `contre_indications`
+--
+
+CREATE TABLE IF NOT EXISTS `contre_indications` (
+  `_Allergie` int(11) NOT NULL,
+  `_Medicament` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `etre_dote`
+--
+
+CREATE TABLE IF NOT EXISTS `etre_dote` (
+  `id_medecin` int(11) NOT NULL,
+  `specialisation` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `maladie`
+--
+
+CREATE TABLE IF NOT EXISTS `maladie` (
+  `_cancer` int(11) NOT NULL,
+  `Nom` varchar(25) NOT NULL,
+  `Gravite` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `medecin`
+--
+
+CREATE TABLE IF NOT EXISTS `medecin` (
+`id_medecin` int(11) NOT NULL,
+  `nom` varchar(25) DEFAULT NULL,
+  `specialisation` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `medicament`
+--
+
+CREATE TABLE IF NOT EXISTS `medicament` (
+  `_Medicament` int(11) NOT NULL,
+  `Nom` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `patient`
+--
+
+CREATE TABLE IF NOT EXISTS `patient` (
+`ID_patient` int(11) NOT NULL,
+  `_Medicament` int(11) NOT NULL,
+  `_cancer` int(11) DEFAULT NULL,
+  `_Autre_Med` int(11) DEFAULT NULL,
+  `_Famille` int(11) NOT NULL,
+  `_Allergie` int(11) DEFAULT NULL,
+  `groupe_sanguin` varchar(25) NOT NULL,
+  `Date_naiss` date NOT NULL,
+  `Date_Incidence` date DEFAULT NULL,
+  `Intervalle_Libre` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `prendre`
+--
+
+CREATE TABLE IF NOT EXISTS `prendre` (
+  `date_debut` date NOT NULL,
+  `ecart_prises` text,
+  `nb_prises_par_jour` char(25) DEFAULT NULL,
+  `nb_jours` varchar(25) DEFAULT NULL,
+  `past_traitement` int(11) DEFAULT NULL,
+  `ID_patient` int(11) NOT NULL,
+  `_Medicament` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `subir`
+--
+
+CREATE TABLE IF NOT EXISTS `subir` (
+  `ID_patient` int(11) NOT NULL,
+  `_Allergie` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `s_occupe`
+--
+
+CREATE TABLE IF NOT EXISTS `s_occupe` (
+  `ID_patient` int(11) NOT NULL,
+  `id_medecin` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `_specialisation`
+--
+
+CREATE TABLE IF NOT EXISTS `_specialisation` (
+  `specialisation` int(11) NOT NULL,
+  `type_specialisation` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `affecter`
+--
+ALTER TABLE `affecter`
+ ADD PRIMARY KEY (`ID_patient`,`_cancer`), ADD KEY `FK_Affecter__cancer` (`_cancer`);
+
+--
+-- Index pour la table `antecedents`
+--
+ALTER TABLE `antecedents`
+ ADD PRIMARY KEY (`_Famille`);
+
+--
+-- Index pour la table `avoir`
+--
+ALTER TABLE `avoir`
+ ADD PRIMARY KEY (`_Famille`,`ID_patient`), ADD KEY `FK_avoir_ID_patient` (`ID_patient`);
+
+--
+-- Index pour la table `avoir_effets_secondaires`
+--
+ALTER TABLE `avoir_effets_secondaires`
+ ADD PRIMARY KEY (`ID_patient`,`_Medicament`), ADD KEY `FK_Avoir_effets_secondaires__Medicament` (`_Medicament`);
+
+--
+-- Index pour la table `connexion`
+--
+ALTER TABLE `connexion`
+ ADD PRIMARY KEY (`ID_connexion`);
+
+--
+-- Index pour la table `contre_indications`
+--
+ALTER TABLE `contre_indications`
+ ADD PRIMARY KEY (`_Allergie`);
+
+--
+-- Index pour la table `etre_dote`
+--
+ALTER TABLE `etre_dote`
+ ADD PRIMARY KEY (`id_medecin`,`specialisation`), ADD KEY `FK_etre_dote_specialisation` (`specialisation`);
+
+--
+-- Index pour la table `maladie`
+--
+ALTER TABLE `maladie`
+ ADD PRIMARY KEY (`_cancer`);
+
+--
+-- Index pour la table `medecin`
+--
+ALTER TABLE `medecin`
+ ADD PRIMARY KEY (`id_medecin`);
+
+--
+-- Index pour la table `medicament`
+--
+ALTER TABLE `medicament`
+ ADD PRIMARY KEY (`_Medicament`);
+
+--
+-- Index pour la table `patient`
+--
+ALTER TABLE `patient`
+ ADD PRIMARY KEY (`ID_patient`);
+
+--
+-- Index pour la table `prendre`
+--
+ALTER TABLE `prendre`
+ ADD PRIMARY KEY (`ID_patient`,`_Medicament`), ADD KEY `FK_Prendre__Medicament` (`_Medicament`);
+
+--
+-- Index pour la table `subir`
+--
+ALTER TABLE `subir`
+ ADD PRIMARY KEY (`ID_patient`,`_Allergie`), ADD KEY `FK_subir__Allergie` (`_Allergie`);
+
+--
+-- Index pour la table `s_occupe`
+--
+ALTER TABLE `s_occupe`
+ ADD PRIMARY KEY (`ID_patient`,`id_medecin`), ADD KEY `FK_s_occupe_id_medecin` (`id_medecin`);
+
+--
+-- Index pour la table `_specialisation`
+--
+ALTER TABLE `_specialisation`
+ ADD PRIMARY KEY (`specialisation`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `connexion`
+--
+ALTER TABLE `connexion`
+MODIFY `ID_connexion` int(25) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `medecin`
+--
+ALTER TABLE `medecin`
+MODIFY `id_medecin` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `patient`
+--
+ALTER TABLE `patient`
+MODIFY `ID_patient` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `affecter`
+--
+ALTER TABLE `affecter`
+ADD CONSTRAINT `FK_Affecter_ID_patient` FOREIGN KEY (`ID_patient`) REFERENCES `patient` (`ID_patient`),
+ADD CONSTRAINT `FK_Affecter__cancer` FOREIGN KEY (`_cancer`) REFERENCES `maladie` (`_cancer`);
+
+--
+-- Contraintes pour la table `avoir`
+--
+ALTER TABLE `avoir`
+ADD CONSTRAINT `FK_avoir_ID_patient` FOREIGN KEY (`ID_patient`) REFERENCES `patient` (`ID_patient`),
+ADD CONSTRAINT `FK_avoir__Famille` FOREIGN KEY (`_Famille`) REFERENCES `antecedents` (`_Famille`);
+
+--
+-- Contraintes pour la table `avoir_effets_secondaires`
+--
+ALTER TABLE `avoir_effets_secondaires`
+ADD CONSTRAINT `FK_Avoir_effets_secondaires_ID_patient` FOREIGN KEY (`ID_patient`) REFERENCES `patient` (`ID_patient`),
+ADD CONSTRAINT `FK_Avoir_effets_secondaires__Medicament` FOREIGN KEY (`_Medicament`) REFERENCES `medicament` (`_Medicament`);
+
+--
+-- Contraintes pour la table `etre_dote`
+--
+ALTER TABLE `etre_dote`
+ADD CONSTRAINT `FK_etre_dote_id_medecin` FOREIGN KEY (`id_medecin`) REFERENCES `medecin` (`id_medecin`),
+ADD CONSTRAINT `FK_etre_dote_specialisation` FOREIGN KEY (`specialisation`) REFERENCES `_specialisation` (`specialisation`);
+
+--
+-- Contraintes pour la table `prendre`
+--
+ALTER TABLE `prendre`
+ADD CONSTRAINT `FK_Prendre_ID_patient` FOREIGN KEY (`ID_patient`) REFERENCES `patient` (`ID_patient`),
+ADD CONSTRAINT `FK_Prendre__Medicament` FOREIGN KEY (`_Medicament`) REFERENCES `medicament` (`_Medicament`);
+
+--
+-- Contraintes pour la table `subir`
+--
+ALTER TABLE `subir`
+ADD CONSTRAINT `FK_subir_ID_patient` FOREIGN KEY (`ID_patient`) REFERENCES `patient` (`ID_patient`),
+ADD CONSTRAINT `FK_subir__Allergie` FOREIGN KEY (`_Allergie`) REFERENCES `contre_indications` (`_Allergie`);
+
+--
+-- Contraintes pour la table `s_occupe`
+--
+ALTER TABLE `s_occupe`
+ADD CONSTRAINT `FK_s_occupe_ID_patient` FOREIGN KEY (`ID_patient`) REFERENCES `patient` (`ID_patient`),
+ADD CONSTRAINT `FK_s_occupe_id_medecin` FOREIGN KEY (`id_medecin`) REFERENCES `medecin` (`id_medecin`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
